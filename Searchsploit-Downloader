@@ -1,0 +1,23 @@
+
+#!/bin/bash
+#Downloader for SearchSploit
+
+#When it ask to find exploits - need to space out wording and \n doesnt work. 
+
+read -sp "What Exploit are we searching for?: " exploit
+echo "                                      "
+echo " Hustling $exploit Exploits, reaching out to our Dude: Exploit DB"
+
+#starts a  loop in our variable - cmd searchsploit main var, piped into other programs.
+for e in $(searchsploit $exploit -w -t | grep http | cut -f 2 -d "|")
+
+#pulls info from e as exp_name  after cleaning up via cut,echo out and seds out the urls to use with wget
+exp_name=$(echo $e | cut -d "/" -f 5)
+url=$(echo $e | sed 's/exploits/raw/')
+wget -q --no-check-certificate $url -O $exp_name
+done 
+
+for i in $exp_name
+echo $exp_name
+
+
